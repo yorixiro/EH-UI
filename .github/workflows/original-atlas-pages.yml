@@ -40,6 +40,30 @@ jobs:
           cp dist/index.html dist/original-atlas/index.html
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
+      - name: Build standalone original-components HTML for raw.githack preview
+        env:
+          CI: '1'
+          EXPO_NO_TELEMETRY: '1'
+        run: |
+          mv dist dist-pages
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const filename='app.json';
+          const app=JSON.parse(fs.readFileSync(filename,'utf8'));
+          app.expo.experiments={...app.expo.experiments,baseUrl:'/yorixiro/EH-UI/gh-pages/direct'};
+          fs.writeFileSync(filename,JSON.stringify(app,null,2));
+          NODE
+          npx expo export --platform web
+          mkdir -p dist-pages/direct
+          cp -a dist/. dist-pages/direct/
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const html=fs.readFileSync('dist/index.html','utf8');
+          const fix='<script>history.replaceState(null,"","/yorixiro/EH-UI/gh-pages/direct/original-atlas");</script>';
+          fs.writeFileSync('dist-pages/direct/original-atlas.html',html.replace('</head>',fix+'</head>'));
+          NODE
+          rm -rf dist
+          mv dist-pages dist
       - name: Publish built web assets to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
