@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useMemo, useState, type ReactNode} from "react";
 import {Pressable, ScrollView, Text, TextInput, View, useWindowDimensions} from "react-native";
 import {themes, type ThemeKey} from "../theme/themes";
+import {AtlasThemeProvider} from "../hooks/useTheme";
 import Starfield from "../components/chat/Starfield";
 import EridaniOrbits from "../components/chat/EridaniOrbits";
 import StaticOrbits from "../components/chat/StaticOrbits";
@@ -95,7 +96,7 @@ return <View style={{flex:1,backgroundColor:t.bg,minHeight:"100%"}}>
  <View style={{flexDirection:"row",flexWrap:"wrap",justifyContent:"space-between"}}>
  {subset.map((s,i)=><View key={s.name} style={{width:mobile?"100%":"49%",marginBottom:16,borderWidth:1,borderColor:t.border,backgroundColor:t.bgCard}}>
  <View style={{padding:15}}><Text style={{color:t.text,fontSize:13,fontWeight:"600"}}>{s.name}</Text><Text style={{color:t.textMuted,fontSize:9,marginTop:7}}>{s.path}</Text></View>
- <View style={{borderTopWidth:1,borderTopColor:t.border,height:s.height??160,position:"relative",overflow:"hidden",justifyContent:"center",alignItems:"center"}}>{s.render()}</View>
+ <View style={{borderTopWidth:1,borderTopColor:t.border,height:s.height??160,position:"relative",overflow:"hidden",justifyContent:"center",alignItems:"center"}}><AtlasThemeProvider themeKey={themeKey}>{s.render()}</AtlasThemeProvider></View>
  </View>)}</View>
  <View style={{flexDirection:"row",justifyContent:"space-between",marginTop:14}}>{btn("← PREVIOUS",()=>setPage(p=>Math.max(0,p-1)),false)}{btn("NEXT →",()=>setPage(p=>Math.min(Math.ceil(filtered.length/8)-1,p+1)),false)}</View>
  <Text style={{color:t.textMuted,fontSize:11,marginTop:23,lineHeight:20}}>原始 SVG、动效、主题令牌都来自仓库源码；部分组件依赖演示数据。 AGPL-3.0.</Text>
