@@ -1,0 +1,1 @@
+__d(function(g,r,i,a,m,e,d){"use strict";Object.defineProperty(e,'__esModule',{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return u}});var n=r(d[0]),t=r(d[1]),o=r(d[2]);function u(){const{configured:u}=(0,t.useConnection)();return u?(0,o.jsx)(n.Redirect,{href:"/(tabs)/home"}):(0,o.jsx)(n.Redirect,{href:"/onboarding"})}},752,[762,766,6]);
